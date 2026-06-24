@@ -30,6 +30,7 @@ export function useLenis(): void {
 
     return () => {
       gsap.ticker.remove(tick);
+      gsap.ticker.lagSmoothing(500, 33); // restore GSAP default
       lenis.destroy();
     };
   }, []);
