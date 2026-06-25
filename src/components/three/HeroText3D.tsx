@@ -16,6 +16,7 @@ export default function HeroText3D() {
       {WORDS.map((w, i) => (
         <Html key={i} position={w.pos} transform distanceFactor={14} zIndexRange={[0, 0]}>
           <div
+            aria-hidden="true"
             className={`font-display text-6xl whitespace-nowrap select-none drop-shadow-2xl ${w.cls}`}
             style={{ pointerEvents: "none" }}
           >

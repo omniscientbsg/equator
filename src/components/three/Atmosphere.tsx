@@ -1,7 +1,7 @@
 // src/components/three/Atmosphere.tsx
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Points, BufferGeometry, Float32BufferAttribute, PointLight } from "three";
 import { BRAND } from "@/lib/three/materials";
@@ -23,6 +23,9 @@ export default function Atmosphere() {
     g.setAttribute("position", new Float32BufferAttribute(arr, 3));
     return g;
   }, []);
+
+  // Manually-created geometry isn't auto-disposed by R3F; release the GPU buffer on unmount.
+  useEffect(() => () => geo.dispose(), [geo]);
 
   useFrame(({ clock }) => {
     if (pts.current) pts.current.rotation.y = clock.elapsedTime * 0.02;
