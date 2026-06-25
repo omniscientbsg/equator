@@ -1,111 +1,88 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { InstancedMesh, Object3D, Color, MeshStandardMaterial, Texture } from "three";
-import { generateCity } from "@/lib/three/city";
-import { BRAND, BUILDING, GROUND } from "@/lib/three/materials";
-import { makeWindowTexture, makeGroundTexture } from "./textures";
+import { useLayoutEffect, useRef } from "react";
+import { InstancedMesh, Object3D, Color } from "three";
+import { Grid } from "@react-three/drei";
 
-const CITY = generateCity({ seed: 1337, count: 80, spread: 30, minH: 2, maxH: 18 });
-const BASE = CITY.filter((b) => !b.accent);
-const ACCENTS = CITY.filter((b) => b.accent);
 const dummy = new Object3D();
+const NUM_BUILDINGS = 600; // A massive sprawling metropolis
 
-/** Emissive accent tower that twinkles. */
-function AccentTower({ idx, x, z, w, d, h }: { idx: number; x: number; z: number; w: number; d: number; h: number }) {
-  const mat = useRef<MeshStandardMaterial>(null!);
-  useFrame(({ clock }) => {
-    mat.current.emissiveIntensity = 0.7 + Math.sin(clock.elapsedTime * 1.5 + idx) * 0.4;
-  });
-  const color = idx % 2 ? BRAND.gold : BRAND.sky;
-  return (
-    <mesh position={[x, h / 2, z]} scale={[w, h, d]} castShadow receiveShadow>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial ref={mat} color={color} emissive={color} emissiveIntensity={0.9} toneMapped={false} />
-    </mesh>
-  );
-}
+// Generate random buildings on a grid
+const BUILDINGS = Array.from({ length: NUM_BUILDINGS }).map((_, i) => {
+  const row = Math.floor(i / 25);
+  const col = i % 25;
+  // Spread out a massive grid, centered around 0,0
+  const x = (col - 12.5) * 12 + (Math.random() - 0.5) * 4;
+  const z = (row - 12.5) * 12 + (Math.random() - 0.5) * 4;
+  
+  // Create a canyon effect (taller near center)
+  const distFromCenter = Math.sqrt(x*x + z*z);
+  const maxH = Math.max(10, 80 - distFromCenter * 0.8);
+  const h = 5 + Math.random() * maxH;
+  
+  const w = 3 + Math.random() * 4;
+  const d = 3 + Math.random() * 4;
+  
+  return { x, z, w, h, d };
+}).filter(b => {
+  // Clear a massive 60x60 plaza in the center for our HeroBuilding
+  const distFromCenter = Math.sqrt(b.x*b.x + b.z*b.z);
+  return distFromCenter > 30;
+});
 
-/** Detailed procedural landmark: tiered tower + crown + spire, with lit windows. */
-function Landmark({ tex }: { tex: Texture }) {
-  return (
-    <group position={[0, 0, -6]}>
-      <mesh position={[0, 11, 0]} castShadow receiveShadow>
-        <boxGeometry args={[6, 22, 6]} />
-        <meshStandardMaterial color={BUILDING.base} map={tex} emissiveMap={tex} emissive={"#ffffff"} emissiveIntensity={0.9} roughness={0.5} metalness={0.2} />
-      </mesh>
-      <mesh position={[0, 25, 0]} castShadow>
-        <boxGeometry args={[4, 8, 4]} />
-        <meshStandardMaterial color={BUILDING.baseAlt} map={tex} emissiveMap={tex} emissive={"#ffffff"} emissiveIntensity={0.9} roughness={0.5} metalness={0.2} />
-      </mesh>
-      <mesh position={[0, 31, 0]} castShadow>
-        <boxGeometry args={[2.2, 5, 2.2]} />
-        <meshStandardMaterial color={BRAND.silver} roughness={0.3} metalness={0.6} />
-      </mesh>
-      <mesh position={[0, 35.5, 0]}>
-        <cylinderGeometry args={[0.08, 0.25, 4, 8]} />
-        <meshStandardMaterial color={BRAND.gold} emissive={BRAND.gold} emissiveIntensity={1.4} toneMapped={false} />
-      </mesh>
-    </group>
-  );
-}
-
-/** Procedural lit city: windowed instanced buildings + rooftops + landmark + textured ground. */
 export default function City() {
   const ref = useRef<InstancedMesh>(null!);
-  const roofRef = useRef<InstancedMesh>(null!);
-  const windowTex = useMemo(() => makeWindowTexture(), []);
-  const groundTex = useMemo(() => makeGroundTexture(), []);
 
   useLayoutEffect(() => {
     const mesh = ref.current;
-    const cA = new Color(BUILDING.base);
-    const cB = new Color(BUILDING.baseAlt);
-    BASE.forEach((b, i) => {
+    const c1 = new Color("#1e293b"); // dark slate
+    const c2 = new Color("#0f172a"); // darker slate
+    const c3 = new Color("#020617"); // near black
+    
+    BUILDINGS.forEach((b, i) => {
       dummy.position.set(b.x, b.h / 2, b.z);
       dummy.scale.set(b.w, b.h, b.d);
       dummy.updateMatrix();
       mesh.setMatrixAt(i, dummy.matrix);
-      mesh.setColorAt(i, i % 2 ? cA : cB);
+      // Mix dark glass colors
+      mesh.setColorAt(i, i % 3 === 0 ? c1 : i % 2 === 0 ? c2 : c3);
     });
     mesh.instanceMatrix.needsUpdate = true;
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-
-    // rooftop detail box on the taller buildings; hide the rest far below
-    const roof = roofRef.current;
-    BASE.forEach((b, i) => {
-      const tall = b.h > 9;
-      dummy.position.set(b.x, tall ? b.h + 0.6 : -1000, b.z);
-      dummy.scale.set(tall ? 0.5 : 0.0001, tall ? 1.4 : 0.0001, tall ? 0.5 : 0.0001);
-      dummy.updateMatrix();
-      roof.setMatrixAt(i, dummy.matrix);
-    });
-    roof.instanceMatrix.needsUpdate = true;
   }, []);
 
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[400, 400]} />
-        <meshStandardMaterial color={GROUND} map={groundTex} roughness={0.85} metalness={0.1} />
+      {/* Endless dark reflective floor */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
+        <planeGeometry args={[2000, 2000]} />
+        <meshStandardMaterial color="#020617" roughness={0.1} metalness={0.95} />
       </mesh>
 
-      <instancedMesh ref={ref} args={[undefined, undefined, BASE.length]} castShadow receiveShadow>
+      {/* Corporate blueprint grid overlaid on the floor */}
+      <Grid 
+        infiniteGrid 
+        fadeDistance={400} 
+        sectionColor="#38bdf8" 
+        cellColor="#0284c7" 
+        sectionSize={20} 
+        cellSize={4} 
+        position={[0, 0, 0]}
+        sectionThickness={1.5}
+        cellThickness={0.5}
+      />
+
+      {/* The towering monoliths */}
+      <instancedMesh ref={ref} args={[undefined, undefined, BUILDINGS.length]} castShadow receiveShadow>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial map={windowTex} emissiveMap={windowTex} emissive={"#ffffff"} emissiveIntensity={0.8} roughness={0.6} metalness={0.15} />
+        {/* Premium polished architectural material */}
+        <meshPhysicalMaterial 
+          roughness={0.3} 
+          metalness={0.7} 
+          clearcoat={0.5}
+          clearcoatRoughness={0.2}
+        />
       </instancedMesh>
-
-      <instancedMesh ref={roofRef} args={[undefined, undefined, BASE.length]} castShadow>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={BUILDING.baseAlt} roughness={0.7} />
-      </instancedMesh>
-
-      <Landmark tex={windowTex} />
-
-      {ACCENTS.map((b, i) => (
-        <AccentTower key={i} idx={i} x={b.x} z={b.z} w={b.w} d={b.d} h={b.h} />
-      ))}
     </group>
   );
 }

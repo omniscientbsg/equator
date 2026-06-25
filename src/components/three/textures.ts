@@ -2,36 +2,45 @@
 
 import { CanvasTexture, RepeatWrapping, SRGBColorSpace, Texture } from "three";
 
-/** Procedural facade: dark building skin with a grid of lit/unlit windows.
- *  Used as both map and emissiveMap so windows glow. */
+/** Procedural facade: sleek modern glass with metallic mullions and subtle office lights.
+ *  Used as both map and emissiveMap. */
 export function makeWindowTexture(): Texture {
   const c = document.createElement("canvas");
-  c.width = 128;
-  c.height = 256;
+  c.width = 256;
+  c.height = 512;
   const ctx = c.getContext("2d")!;
-  // facade base
-  ctx.fillStyle = "#11162b";
+  
+  // Base glass color (dark, reflective)
+  ctx.fillStyle = "#080c14";
   ctx.fillRect(0, 0, c.width, c.height);
-  const cols = 6;
-  const rows = 14;
-  const mx = 6;
-  const my = 6;
-  const cw = (c.width - mx * (cols + 1)) / cols;
-  const ch = (c.height - my * (rows + 1)) / rows;
-  for (let r = 0; r < rows; r++) {
-    for (let col = 0; col < cols; col++) {
-      const lit = Math.random();
-      // warm gold, cool blue, or dark window
-      if (lit < 0.18) ctx.fillStyle = "#f2c14e";
-      else if (lit < 0.5) ctx.fillStyle = "#6fa8dc";
-      else ctx.fillStyle = "#0b1020";
-      const x = mx + col * (cw + mx);
-      const y = my + r * (ch + my);
-      ctx.fillRect(x, y, cw, ch);
+
+  const floors = 24;
+  const floorHeight = c.height / floors;
+  const cols = 8;
+  const colWidth = c.width / cols;
+
+  // Horizontal floor slabs and vertical mullions
+  ctx.fillStyle = "#111827"; 
+  for (let i = 0; i < floors; i++) {
+    ctx.fillRect(0, i * floorHeight, c.width, 3);
+    for(let j = 0; j < cols; j++) {
+       ctx.fillRect(j * colWidth, i * floorHeight, 2, floorHeight);
     }
   }
+
+  // Modern interior office lights (cool white / warm white)
+  for (let r = 0; r < floors; r++) {
+    for (let col = 0; col < cols; col++) {
+      if (Math.random() < 0.25) {
+        ctx.fillStyle = Math.random() > 0.5 ? "rgba(180, 220, 255, 0.4)" : "rgba(255, 235, 210, 0.3)";
+        ctx.fillRect(col * colWidth + 2, r * floorHeight + 3, colWidth - 2, floorHeight - 3);
+      }
+    }
+  }
+
   const tex = new CanvasTexture(c);
   tex.wrapS = tex.wrapT = RepeatWrapping;
+  tex.repeat.set(1.5, 2); // Tile across buildings nicely
   tex.colorSpace = SRGBColorSpace;
   return tex;
 }

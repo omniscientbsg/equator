@@ -14,12 +14,29 @@ export interface CameraFrame {
   roll: number;
 }
 
-/** Camera keyframes for the hero act, scaled to the city, ordered by progress 0..1. */
+/** Camera keyframes for flying through the Digital Twin skyscraper. */
 const KEYFRAMES: Keyframe[] = [
-  { position: [0, 20, 46], target: [0, 12, 0], roll: 0 },
-  { position: [20, 13, 20], target: [0, 10, -8], roll: 0.04 },
-  { position: [-10, 9, 6], target: [0, 11, -20], roll: -0.03 },
-  { position: [0, 8, -8], target: [0, 12, -34], roll: 0 },
+  // 1. Hero: Sweeping view of the massive city and the Hero Building from high above
+  { position: [0, 120, 180], target: [0, 40, 0], roll: 0 },
+  { position: [40, 60, 80], target: [0, 20, 0], roll: 0.05 },
+  
+  // 2. Gatekeeping: Swoop down to street level, facing the front entrance
+  { position: [0, 2, 40], target: [0, 2, 0], roll: 0 },
+  { position: [0, 2, 25], target: [0, 2, 0], roll: -0.02 },
+  
+  // 3. Reception: Move forward into the 1st floor lobby
+  { position: [0, 8, 15], target: [0, 8, 0], roll: 0.02 },
+  { position: [0, 8, 5], target: [0, 20, -5], roll: 0 },
+  
+  // 4. Elevator: Move inside the central shaft and look straight UP, then fly up
+  { position: [0, 10, 0], target: [0, 100, 0], roll: 0.1 },
+  { position: [0, 50, 0], target: [0, 100, 0], roll: 0 },
+  
+  // 5. Office: Emerge on Floor 10 (y=60) and pan across
+  { position: [0, 62, 5], target: [15, 62, -15], roll: -0.05 },
+  
+  // 6. Contact: Pull back out through the glass into the sky
+  { position: [30, 80, 60], target: [0, 40, 0], roll: 0 },
 ];
 
 function easeInOutCubic(t: number): number {
