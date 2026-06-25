@@ -1,3 +1,4 @@
+// src/components/three/Experience.tsx
 "use client";
 
 import { Canvas } from "@react-three/fiber";
@@ -8,8 +9,9 @@ export default function Experience() {
   return (
     <div className="fixed inset-0 -z-10" aria-hidden>
       <Canvas
+        shadows
         dpr={[1, 2]}
-        camera={{ position: [0, 8, 18], fov: 50 }}
+        camera={{ position: [0, 14, 34], fov: 50 }}
         gl={{ antialias: true, powerPreference: "high-performance" }}
       >
         <HeroScene />
