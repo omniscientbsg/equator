@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { registerScrollTrigger } from "@/lib/motion";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { scrollProgress } from "@/lib/three/scrollStore";
+import { setChromeHidden } from "@/lib/three/chromeStore";
 
 /**
  * Drives `scrollProgress.value` (0..1) from scroll position over the element
@@ -22,9 +23,13 @@ export function useScrollProgress(triggerId: string): void {
       scrub: true,
       onUpdate: (self) => {
         scrollProgress.value = self.progress;
+        setChromeHidden(self.progress < 0.92);
       },
     });
 
-    return () => st.kill();
+    return () => {
+      st.kill();
+      setChromeHidden(false);
+    };
   }, [triggerId]);
 }
