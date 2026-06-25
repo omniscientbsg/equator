@@ -21,7 +21,7 @@ export default function HeroScene() {
       <color attach="background" args={[BRAND.charcoal]} />
       <fog attach="fog" args={[BRAND.charcoal, 20, 70]} />
 
-      <ambientLight intensity={0.25} />
+      <ambientLight intensity={0.35} />
       <hemisphereLight args={[BRAND.sky, BRAND.charcoal, 0.4]} />
       <directionalLight
         position={[18, 30, 12]}
@@ -48,7 +48,7 @@ export default function HeroScene() {
       </Suspense>
 
       <EffectComposer>
-        <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.6} luminanceSmoothing={0.2} />
+        <Bloom mipmapBlur intensity={0.8} luminanceThreshold={0.5} luminanceSmoothing={0.2} />
       </EffectComposer>
     </>
   );

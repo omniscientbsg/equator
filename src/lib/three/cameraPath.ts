@@ -16,10 +16,10 @@ export interface CameraFrame {
 
 /** Camera keyframes for the hero act, scaled to the city, ordered by progress 0..1. */
 const KEYFRAMES: Keyframe[] = [
-  { position: [0, 14, 34], target: [0, 6, 0], roll: 0 },
-  { position: [14, 8, 14], target: [0, 5, -4], roll: 0.04 },
-  { position: [-6, 5, 4], target: [0, 7, -16], roll: -0.03 },
-  { position: [0, 4, -10], target: [0, 8, -30], roll: 0 },
+  { position: [0, 20, 46], target: [0, 12, 0], roll: 0 },
+  { position: [20, 13, 20], target: [0, 10, -8], roll: 0.04 },
+  { position: [-10, 9, 6], target: [0, 11, -20], roll: -0.03 },
+  { position: [0, 8, -8], target: [0, 12, -34], roll: 0 },
 ];
 
 function easeInOutCubic(t: number): number {
