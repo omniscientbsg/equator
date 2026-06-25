@@ -7,3 +7,11 @@ export const BRAND = {
   gold: 0xc9a84c,
   silver: 0xe8edf5,
 } as const;
+
+/** Solid building + ground colors for the lit city (hex ints). */
+export const BUILDING = {
+  base: 0x232a44,
+  baseAlt: 0x2c3354,
+} as const;
+
+export const GROUND = 0x12131f;
