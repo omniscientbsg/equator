@@ -1,52 +1,55 @@
+// src/components/three/HeroScene.tsx
 "use client";
 
 import { Suspense } from "react";
 import { Environment } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { BRAND } from "@/lib/three/materials";
-import { buildingFloors } from "@/lib/three/geometry";
+import City from "./City";
+import Atmosphere from "./Atmosphere";
+import HeroText3D from "./HeroText3D";
 import HeroModel from "./HeroModel";
 import CameraRig from "./CameraRig";
 import Loader from "./Loader";
 
-const FLOORS = buildingFloors({ count: 9, floorHeight: 1.4, taper: 0.06 });
-
-/** Phase 1 hero scene: procedural wireframe tower + blueprint grid + lights. */
+/** Phase 1.5 hero scene: lit procedural city + atmosphere + in-world text + bloom. */
 export default function HeroScene() {
   return (
     <>
       <CameraRig />
 
       <color attach="background" args={[BRAND.charcoal]} />
-      <fog attach="fog" args={[BRAND.charcoal, 18, 42]} />
+      <fog attach="fog" args={[BRAND.charcoal, 20, 70]} />
 
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[6, 12, 8]} intensity={1.1} color={BRAND.sky} />
-      <pointLight position={[-6, 6, -4]} intensity={40} color={BRAND.gold} />
+      <ambientLight intensity={0.25} />
+      <hemisphereLight args={[BRAND.sky, BRAND.charcoal, 0.4]} />
+      <directionalLight
+        position={[18, 30, 12]}
+        intensity={1.3}
+        color={BRAND.silver}
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-left={-50}
+        shadow-camera-right={50}
+        shadow-camera-top={50}
+        shadow-camera-bottom={-50}
+        shadow-camera-far={120}
+      />
 
-      {/* Blueprint grid plane */}
-      <gridHelper args={[60, 60, BRAND.blue, BRAND.navy]} position={[0, 0, 0]} />
-
-      {/* Procedural wireframe tower */}
-      <group position={[0, 0, -2]}>
-        {FLOORS.map((floor, i) => (
-          <mesh key={i} position={[0, floor.y + 0.7, 0]} scale={[floor.scale, 1, floor.scale]}>
-            <boxGeometry args={[4, 1.3, 4]} />
-            <meshStandardMaterial
-              color={BRAND.navy}
-              wireframe
-              emissive={BRAND.sky}
-              emissiveIntensity={0.15}
-            />
-          </mesh>
-        ))}
-      </group>
+      <City />
+      <Atmosphere />
+      <HeroText3D />
 
       <Suspense fallback={<Loader />}>
-        <group position={[5, 0, 1]}>
+        <group position={[10, 0, -6]}>
           <HeroModel />
         </group>
         <Environment preset="city" />
       </Suspense>
+
+      <EffectComposer>
+        <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.6} luminanceSmoothing={0.2} />
+      </EffectComposer>
     </>
   );
 }
