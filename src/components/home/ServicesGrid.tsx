@@ -98,7 +98,7 @@ export default function ServicesGrid() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="service-card bg-white rounded-[2.5rem] p-10 border border-equator-silver shadow-lg shadow-equator-navy/5 transition-all duration-500 hover:shadow-2xl hover:shadow-equator-navy/20 relative overflow-hidden group flex flex-col cursor-pointer"
+              className="service-card bg-white rounded-[2.5rem] p-10 border border-equator-silver shadow-lg shadow-equator-navy/5 transition-shadow duration-200 hover:shadow-2xl hover:shadow-equator-navy/20 relative overflow-hidden group flex flex-col cursor-pointer"
             >
               {/* Background Reveal on Hover */}
               <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-0">
