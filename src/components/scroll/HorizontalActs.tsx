@@ -36,10 +36,14 @@ export default function HorizontalActs({
     const ctx = gsap.context(() => {
       const track = trackRef.current!;
       
-      // Calculate max scrollable distance
       const getScrollAmount = () => {
-        const paddingRight = window.innerWidth > 768 ? 48 : 24; // Account for right margin
-        let distance = track.scrollWidth - window.innerWidth + paddingRight;
+        // Find the actual right boundary of the last child
+        const children = track.children;
+        if (!children.length) return 0;
+        const lastChild = children[children.length - 1] as HTMLElement;
+        
+        // Calculate the overflow distance exactly using native offsets (immune to transforms)
+        let distance = (lastChild.offsetLeft + lastChild.offsetWidth) - track.offsetWidth + 32; // 32px for trailing padding
         return distance > 0 ? distance : 0;
       };
 
@@ -51,7 +55,7 @@ export default function HorizontalActs({
           start: "center center",
           end: () => `+=${getScrollAmount()}`,
           pin: true,
-          scrub: 1, // Smooth out the scrub
+          scrub: true, // true binds directly to scrollbar (no delay/stuck feeling)
           invalidateOnRefresh: true,
         },
       });

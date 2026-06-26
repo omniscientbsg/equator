@@ -116,7 +116,7 @@ export default function WhyEquator() {
 
           {/* Right Column (Bento Cards) */}
           <div className="w-full md:w-1/2 py-12 md:py-32 md:pl-12 flex items-center justify-center">
-            <ParallaxLayer speed={-10} className="grid grid-cols-2 grid-rows-2 gap-4 md:gap-6 w-full h-[500px] md:h-[700px]">
+            <div className="grid grid-cols-2 grid-rows-2 gap-4 md:gap-6 w-full h-[500px] md:h-[700px]">
               <div className="rounded-[2rem] overflow-hidden group shadow-xl relative bg-equator-navy">
                 <div className="absolute inset-0 bg-equator-navy/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 <img 
@@ -149,7 +149,7 @@ export default function WhyEquator() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
               </div>
-            </ParallaxLayer>
+            </div>
           </div>
 
         </div>
