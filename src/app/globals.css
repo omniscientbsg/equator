@@ -10,7 +10,7 @@
   --color-equator-gold: #C9A84C;
   --color-equator-red: #E63946;
 
-  --font-display: var(--font-dm-serif), serif;
+  --font-display: "At Aero", var(--font-dm-serif), serif;
   --font-sans: var(--font-inter), sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
 
@@ -69,6 +69,11 @@
   /* Use absolute path for next.js public folder */
   --img: url('/produx/www.produx.design/images/FeaturedProject/Payy.webp');
 }
+
+/* At Aero — produx.design display/body face (self-hosted from /public/fonts) */
+@font-face { font-family: "At Aero"; src: url("/fonts/AtAero-Regular.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "At Aero"; src: url("/fonts/AtAero-Medium.otf") format("opentype"); font-weight: 500 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "At Aero Retina"; src: url("/fonts/AtAero-Retina.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
 
 body {
   background: var(--bg);
@@ -136,7 +141,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 0;opacity:0;
 .menu a:hover{color:var(--ink);border-color:var(--line)}
 .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
 .burger span{width:24px;height:2px;background:var(--ink)}
-.scene{height:520vh;position:relative;z-index:1}
+.scene{height:620vh;position:relative;z-index:1}
 .stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center}
 .stage__bg{position:absolute;inset:0;background:radial-gradient(120% 90% at 80% -10%,rgba(231,226,214,.06),transparent 55%),radial-gradient(80% 70% at 12% 110%,rgba(120,130,160,.10),transparent 60%),var(--bg)}
 .rail{position:fixed;left:0;top:0;height:2px;width:0;background:var(--ink);z-index:300;opacity:.55}
@@ -303,4 +308,40 @@ footer{padding:90px 0 40px;border-top:1px solid var(--line-soft);background:var(
   .scene{height:420vh}
   .hero-sub{margin-top:24px}
   .work .projects{gap:64px}
+}
+/* ===================== FEATURED WORK — asymmetric editorial grid (produx.design) ===================== */
+.pwork{padding:140px 0 120px;background:var(--bg)}
+.pwork .wrap{width:min(1294px,92vw)}
+.pwork__head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:54px;border-bottom:1px solid var(--line-soft)}
+.pgrid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:3vw;row-gap:clamp(70px,7vw,120px);margin-top:90px;align-items:start}
+.pcard{display:flex;flex-direction:column;gap:20px}
+.pcard.is-lg{grid-column:span 7}
+.pcard.is-sm{grid-column:span 4}
+.pcard.is-wide{grid-column:1 / -1}
+.pcard.is-down{margin-top:clamp(40px,6vw,96px)}
+/* media — sharp corners (radius 0), real aspect ratios */
+.pcard__media{position:relative;display:block;overflow:hidden;background:var(--bg-2)}
+.pcard.is-lg .pcard__media{aspect-ratio:1.15/1}
+.pcard.is-sm .pcard__media{aspect-ratio:.87/1}
+.pcard.is-wide .pcard__media{aspect-ratio:1.66/1}
+.pcard__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease-out)}
+.pcard__media:hover img{transform:scale(1.04)}
+/* tag chips overlaid bottom-left */
+.pcard__tags{position:absolute;left:16px;bottom:16px;display:flex;flex-wrap:wrap;gap:6px;max-width:80%}
+.pcard__tags span{font-family:var(--font-mono);font-size:clamp(9px,.69vw,11px);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);padding:9px 10px;line-height:1}
+/* hover VIEW pill */
+.pcard__view{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:11px 18px;border-radius:999px;opacity:0;transition:opacity .35s var(--ease),transform .35s var(--ease);pointer-events:none}
+.pcard__view svg{width:14px;height:14px;stroke:currentColor}
+.pcard__media:hover .pcard__view{opacity:1;transform:translate(-50%,-50%) scale(1)}
+/* caption */
+.pcard__cap h3{font-family:var(--font-display);font-weight:400;font-size:clamp(18px,1.67vw,26px);line-height:1.25;letter-spacing:0;color:var(--ink)}
+.pcard__cap h3 .w{display:inline-block;overflow:hidden;vertical-align:top;margin-right:.28em}
+.pcard__cap h3 .w>span{display:inline-block;transform:translateY(110%);opacity:.1;transition:transform .7s var(--ease-out),opacity .7s var(--ease-out)}
+.pcard.in .pcard__cap h3 .w>span{transform:none;opacity:1}
+.pcard__cap p{margin-top:12px;max-width:38ch;font-family:var(--font-mono);font-size:clamp(11px,.86vw,13px);line-height:1.65;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-dim)}
+@media (max-width:860px){
+  .pgrid{grid-template-columns:1fr;row-gap:64px;margin-top:56px}
+  .pcard.is-lg,.pcard.is-sm,.pcard.is-wide{grid-column:1 / -1}
+  .pcard.is-down{margin-top:0}
+  .pcard__media,.pcard.is-lg .pcard__media,.pcard.is-sm .pcard__media,.pcard.is-wide .pcard__media{aspect-ratio:1.3/1}
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import ProduxProjects from "./ProduxProjects";
 
 export default function ProduxSections() {
   useEffect(() => {
@@ -67,64 +68,8 @@ export default function ProduxSections() {
         </div>
       </section>
 
-      {/* ===================== FEATURED PROJECTS ===================== */}
-      <section className="block work sec-pad" id="work">
-        <div className="wrap">
-          <div className="sec-head reveal"><h2>Featured work</h2><span className="eyebrow">05 selected projects</span></div>
-          <div className="projects">
-            <article className="project reveal">
-              <a href="#" className="project__media">
-                <img src="/produx/www.produx.design/images/FeaturedProject/Payy.webp" alt="Payy Network" loading="lazy" />
-                <span className="project__view">View<br/>project</span>
-              </a>
-              <div className="project__row">
-                <div><div className="project__index num">01 — Fintech</div><h3 className="display">Payy Network</h3><div className="project__tags"><span>Creative direction</span><span>Visual identity</span><span>Motion</span><span>Web design</span></div></div>
-                <a href="#" className="project__link">View Project<svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-              </div>
-            </article>
-            <article className="project reveal">
-              <a href="#" className="project__media">
-                <img src="/produx/www.produx.design/images/FeaturedProject/GatherAI.webp" alt="Gather AI" loading="lazy" />
-                <span className="project__view">View<br/>project</span>
-              </a>
-              <div className="project__row">
-                <div><div className="project__index num">02 — AI</div><h3 className="display">Gather AI</h3><div className="project__tags"><span>Creative direction</span><span>Visual identity</span><span>Website</span></div></div>
-                <a href="#" className="project__link">View Project<svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-              </div>
-            </article>
-            <article className="project reveal">
-              <a href="#" className="project__media">
-                <img src="/produx/www.produx.design/images/FeaturedProject/JurniAI.webp" alt="Jurni AI" loading="lazy" />
-                <span className="project__view">View<br/>project</span>
-              </a>
-              <div className="project__row">
-                <div><div className="project__index num">03 — AI</div><h3 className="display">Jurni AI</h3><div className="project__tags"><span>Creative direction</span><span>Visual identity</span><span>Motion</span><span>Website</span></div></div>
-                <a href="#" className="project__link">View Project<svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-              </div>
-            </article>
-            <article className="project reveal">
-              <a href="#" className="project__media">
-                <img src="/produx/www.produx.design/images/FeaturedProject/parkerAI.webp" alt="Parker AI" loading="lazy" />
-                <span className="project__view">View<br/>project</span>
-              </a>
-              <div className="project__row">
-                <div><div className="project__index num">04 — AI</div><h3 className="display">Parker AI</h3><div className="project__tags"><span>Creative direction</span><span>Visual identity</span><span>Motion</span></div></div>
-                <a href="#" className="project__link">View Project<svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-              </div>
-            </article>
-            <article className="project reveal">
-              <a href="#" className="project__media">
-                <img src="/produx/www.produx.design/images/FeaturedProject/NolanaAI.webp" alt="Nolana AI" loading="lazy" />
-                <span className="project__view">View<br/>project</span>
-              </a>
-              <div className="project__row">
-                <div><div className="project__index num">05 — AI</div><h3 className="display">Nolana AI</h3><div className="project__tags"><span>Creative direction</span><span>Visual identity</span><span>Motion</span><span>Website</span></div></div>
-                <a href="#" className="project__link">View Project<svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+      {/* ===================== FEATURED PROJECTS (pinned horizontal) ===================== */}
+      <ProduxProjects />
 
       {/* ===================== LET'S TALK CTA ===================== */}
       <section className="block cta-block" id="lets-talk">

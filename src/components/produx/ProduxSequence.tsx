@@ -47,6 +47,7 @@ export default function ProduxSequence() {
     const showVideo = $("showVideo") as HTMLVideoElement;
     const navBrand = $("navBrand")!;
     const contentTrack = $("contentTrack")!;
+    const mediaWrap = $("mediaWrap")!;
     const puzzle = $("puzzle")!;
     const pgrid = $("puzzleGrid")!;
 
@@ -96,17 +97,12 @@ export default function ProduxSequence() {
     };
 
     const END_SCALE = 0.11;
-    let cornerX = 0,
-      cornerY = 0,
+    let lwNat = 0, // logo mark natural width (measured at scale 1)
       puzzleBaseW = 0,
       puzzleBaseH = 0;
     const measure = () => {
-      const w = stage.clientWidth || innerWidth,
-        h = stage.clientHeight || innerHeight;
-      const lw = logoMark.getBoundingClientRect().width || w * 0.86;
-      const brandRect = navBrand.getBoundingClientRect();
-      cornerX = brandRect.left - w / 2 + (lw * END_SCALE) / 2;
-      cornerY = brandRect.top + brandRect.height / 2 - h * 0.35; // logo starts at top:35vh
+      const w = stage.clientWidth || innerWidth;
+      lwNat = logoMark.getBoundingClientRect().width || w * 0.86;
       sizeTiles();
       puzzleBaseW = puzzle.clientWidth || Math.min(620, w * 0.694);
       puzzleBaseH = puzzle.clientHeight || puzzleBaseW / 1.784;
@@ -116,10 +112,16 @@ export default function ProduxSequence() {
       rail.style.width = p * 100 + "%";
 
       const open = easeOut(seg(p, 0.0, 0.25)); // logo + track move
-      const showIn = easeOut(seg(p, 0.7, 0.78)); // video takeover
-      const grow = easeIO(seg(p, 0.78, 0.92));
+      const showIn = easeOut(seg(p, 0.64, 0.72)); // video fades in over solved frame
+      const grow = easeIO(seg(p, 0.72, 0.82)); // grows to full-bleed, then plateaus 0.82→1.0
 
-      // logo travels to the nav brand and shrinks
+      // logo travels to the nav brand and shrinks. Target computed live from the
+      // (unscaled) navBrand rect every frame so it never goes stale on HMR/resize/font-load.
+      const w = stage.clientWidth || innerWidth,
+        h = stage.clientHeight || innerHeight;
+      const br = navBrand.getBoundingClientRect();
+      const cornerX = br.left - w / 2 + (lwNat * END_SCALE) / 2;
+      const cornerY = br.top + br.height / 2 - h * 0.35; // logo starts at top:35vh
       const s = lerp(1.0, END_SCALE, open);
       const dx = lerp(0, cornerX, open),
         dy = lerp(0, cornerY, open);
@@ -140,6 +142,13 @@ export default function ProduxSequence() {
       const trackDrift = easeOut(seg(p, 0.0, 0.65));
       contentTrack.style.transform = `translateY(${-trackDrift * innerHeight * 0.65}px)`;
 
+      // text has fully faded by ~0.55, so lift the media frame to center it in the viewport
+      // (the tall frame otherwise overflows the bottom). Release the lift before the video
+      // goes full-bleed so the full-bleed showreel stays centered.
+      const solveLift = easeOut(seg(p, 0.4, 0.65));
+      const unlift = easeIO(seg(p, 0.72, 0.82));
+      mediaWrap.style.transform = `translateY(${-solveLift * (1 - unlift) * innerHeight * 0.28}px)`;
+
       // puzzle solve (0.15 → 0.65): pieces come forward from deep z, deep = blurred/invisible
       puzzle.style.opacity = String(1 - showIn);
       const build = seg(p, 0.15, 0.65),
@@ -158,12 +167,24 @@ export default function ProduxSequence() {
         t.style.opacity = String(clamp(1 + sz / 3500));
       });
 
-      // showreel: fades in over the solved frame then grows full-bleed
+      // showreel: fades in over the solved frame then grows full-bleed. As it grows, slide the
+      // show-layer so the frame's center reaches the viewport center (it otherwise stays wherever
+      // the drifted media-wrap sat, leaving the full-bleed video off-center / cut at the bottom).
       showLayer.style.opacity = String(showIn);
+      const frameH = lerp(puzzleBaseH, innerHeight, grow);
+      showFrame.style.maxWidth = "none"; // CSS caps at 1200px; allow true full-bleed width
       showFrame.style.width = lerp(puzzleBaseW, innerWidth, grow) + "px";
-      showFrame.style.height = lerp(puzzleBaseH, innerHeight, grow) + "px";
+      showFrame.style.height = frameH + "px";
       showFrame.style.borderRadius = lerp(14, 0, grow) + "px";
-      if (showIn > 0.02 && showVideo && showVideo.paused) showVideo.play().catch(() => {});
+      // The frame is top-aligned inside show-layer (grid row grows to the frame height), so its
+      // center is mw.top + frameH/2 — slide show-layer to bring that to the viewport center.
+      const mw = mediaWrap.getBoundingClientRect();
+      showLayer.style.transform = `translateY(${(innerHeight / 2 - frameH / 2 - mw.top) * grow}px)`;
+
+      // Let the showreel autoplay (looped) while it's pinned full-bleed — smooth real-time
+      // playback, not scrubbed (scrubbing stutters). The wide full-bleed plateau (grow done at
+      // ~0.82 → scene releases at 1.0) keeps it on screen for a long scroll span.
+      if (showVideo && showIn > 0.02 && showVideo.paused) showVideo.play().catch(() => {});
     };
 
     const progress = () => {
@@ -268,6 +289,7 @@ export default function ProduxSequence() {
                     playsInline
                     muted
                     loop
+                    preload="auto"
                     disablePictureInPicture
                     controlsList="nodownload noplaybackrate"
                   />
