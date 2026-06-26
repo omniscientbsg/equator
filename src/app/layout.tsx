@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { Inter, DM_Serif_Display, JetBrains_Mono } from "next/font/google";
+import { Inter, Inter_Tight, DM_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/layout/SmoothScroll";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import ChromeFrame from "@/components/layout/ChromeFrame";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const dmSerif = DM_Serif_Display({
+// Display grotesk — closest free match to produx's proprietary "AtAero".
+// Exposed via --font-dm-serif so globals.css's --font-display keeps resolving.
+const interTight = Inter_Tight({
   variable: "--font-dm-serif",
-  weight: "400",
+  weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
+// Mono — produx uses "DM Mono".
+const dmMono = DM_Mono({
   variable: "--font-jetbrains",
+  weight: ["400", "500"],
   subsets: ["latin"],
 });
 
@@ -35,18 +35,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${dmSerif.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${interTight.variable} ${dmMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
-        <SmoothScroll>
-          <ChromeFrame>
-            <Navbar />
-          </ChromeFrame>
-          <main className="flex-grow flex flex-col">{children}</main>
-          <ChromeFrame>
-            <Footer />
-          </ChromeFrame>
-        </SmoothScroll>
+      <body className="min-h-full flex flex-col font-sans bg-black text-white selection:bg-white/20">
+        <main className="flex-grow flex flex-col">{children}</main>
       </body>
     </html>
   );
