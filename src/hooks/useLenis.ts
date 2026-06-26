@@ -18,8 +18,9 @@ export function useLenis(): void {
     registerScrollTrigger();
 
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 0.8,
       smoothWheel: true,
+      wheelMultiplier: 1.2,
     });
 
     lenis.on("scroll", ScrollTrigger.update);
