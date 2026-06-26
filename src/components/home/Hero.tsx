@@ -83,17 +83,6 @@ export default function Hero() {
             scrub: true,
           },
         });
-        gsap.to([eyebrowRef.current, headlineRef.current, subheadRef.current, ctaRef.current], {
-          yPercent: -30,
-          opacity: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
       }
     }, containerRef);
 

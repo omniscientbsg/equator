@@ -1,10 +1,36 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import HorizontalActs from "@/components/scroll/HorizontalActs";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Building2, Wrench, Sparkles, ArrowRight } from "lucide-react";
 
 export default function ServicesGrid() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray('.service-card');
+      gsap.fromTo(cards, 
+        { y: 80, opacity: 0 }, 
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          stagger: 0.2, 
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+          }
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
   const services = [
     {
       title: "Retail Turnkey Projects",
@@ -48,7 +74,7 @@ export default function ServicesGrid() {
   ];
 
   return (
-    <section className="py-32 bg-white text-equator-charcoal relative z-10">
+    <section ref={containerRef} className="py-32 bg-white text-equator-charcoal relative z-10">
       {/* Decorative Background Mesh */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
@@ -68,11 +94,11 @@ export default function ServicesGrid() {
           </p>
         </div>
 
-        <HorizontalActs className="-mx-6 md:mx-0">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className="md:w-[80vw] md:max-w-[480px] shrink-0 md:mr-8 bg-white rounded-[2.5rem] p-10 border border-equator-silver shadow-lg shadow-equator-navy/5 transition-all duration-500 hover:shadow-2xl hover:shadow-equator-navy/20 relative overflow-hidden group flex flex-col cursor-pointer"
+              className="service-card bg-white rounded-[2.5rem] p-10 border border-equator-silver shadow-lg shadow-equator-navy/5 transition-all duration-500 hover:shadow-2xl hover:shadow-equator-navy/20 relative overflow-hidden group flex flex-col cursor-pointer"
             >
               {/* Background Reveal on Hover */}
               <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0">
@@ -115,7 +141,7 @@ export default function ServicesGrid() {
               </Link>
             </div>
           ))}
-        </HorizontalActs>
+        </div>
       </div>
     </section>
   );
