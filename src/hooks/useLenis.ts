@@ -14,25 +14,6 @@ import { prefersReducedMotion, registerScrollTrigger } from "@/lib/motion";
 export function useLenis(): void {
   useEffect(() => {
     if (prefersReducedMotion()) return;
-
     registerScrollTrigger();
-
-    const lenis = new Lenis({
-      duration: 0.8,
-      smoothWheel: true,
-      wheelMultiplier: 1.2,
-    });
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tick = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      gsap.ticker.remove(tick);
-      gsap.ticker.lagSmoothing(500, 33); // restore GSAP default
-      lenis.destroy();
-    };
   }, []);
 }

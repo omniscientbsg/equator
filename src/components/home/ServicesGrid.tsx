@@ -101,29 +101,29 @@ export default function ServicesGrid() {
               className="service-card bg-white rounded-[2.5rem] p-10 border border-equator-silver shadow-lg shadow-equator-navy/5 transition-all duration-500 hover:shadow-2xl hover:shadow-equator-navy/20 relative overflow-hidden group flex flex-col cursor-pointer"
             >
               {/* Background Reveal on Hover */}
-              <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
+              <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-0">
                 <img src={service.image} alt={service.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-500 ease-out" />
                 <div className="absolute inset-0 bg-equator-navy/80 mix-blend-multiply" />
                 <div className="absolute inset-0 bg-gradient-to-t from-equator-navy via-equator-navy/60 to-transparent" />
               </div>
               
               <div className="relative z-10">
-                <div className="w-20 h-20 rounded-2xl bg-equator-silver/40 group-hover:bg-white/10 backdrop-blur-md border border-transparent group-hover:border-white/20 flex items-center justify-center mb-8 transition-all duration-300 shadow-inner">
+                <div className="w-20 h-20 rounded-2xl bg-equator-silver/40 group-hover:bg-white/10 backdrop-blur-md border border-transparent group-hover:border-white/20 flex items-center justify-center mb-8 transition-all duration-200 shadow-inner">
                   {service.icon}
                 </div>
                 
-                <h3 className="font-display text-3xl text-equator-navy mb-4 group-hover:text-white transition-colors duration-300">
+                <h3 className="font-display text-3xl text-equator-navy mb-4 group-hover:text-white transition-colors duration-200">
                   {service.title}
                 </h3>
                 
-                <p className="text-equator-charcoal/60 text-base leading-relaxed mb-8 font-light group-hover:text-white/90 transition-colors duration-300">
+                <p className="text-equator-charcoal/60 text-base leading-relaxed mb-8 font-light group-hover:text-white/90 transition-colors duration-200">
                   {service.description}
                 </p>
                 
                 <ul className="space-y-4 mb-10">
                   {service.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-center gap-4 text-sm text-equator-navy font-medium group-hover:text-white/90 transition-colors duration-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-equator-sky shrink-0 group-hover:bg-white group-hover:scale-150 transition-all duration-300" />
+                    <li key={i} className="flex items-center gap-4 text-sm text-equator-navy font-medium group-hover:text-white/90 transition-colors duration-200">
+                      <div className="w-1.5 h-1.5 rounded-full bg-equator-sky shrink-0 group-hover:bg-white group-hover:scale-150 transition-all duration-200" />
                       {bullet}
                     </li>
                   ))}
