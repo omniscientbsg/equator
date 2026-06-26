@@ -35,22 +35,32 @@ export default function HorizontalActs({
     registerScrollTrigger();
     const ctx = gsap.context(() => {
       const track = trackRef.current!;
-      const distance = track.scrollWidth - window.innerWidth;
-      if (distance <= 0) return;
+      
+      // Calculate max scrollable distance
+      const getScrollAmount = () => {
+        const paddingRight = window.innerWidth > 768 ? 48 : 24; // Account for right margin
+        let distance = track.scrollWidth - window.innerWidth + paddingRight;
+        return distance > 0 ? distance : 0;
+      };
 
       gsap.to(track, {
-        x: -distance,
+        x: () => -getScrollAmount(),
         ease: "none",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: `+=${distance}`,
+          start: "center center",
+          end: () => `+=${getScrollAmount()}`,
           pin: true,
-          scrub: true,
+          scrub: 1, // Smooth out the scrub
           invalidateOnRefresh: true,
         },
       });
     }, sectionRef);
+
+    // Refresh scrolltrigger after images/fonts might have loaded
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
 
     return () => ctx.revert();
   }, [minWidth]);

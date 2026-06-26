@@ -48,10 +48,12 @@ export default function ServicesGrid() {
   ];
 
   return (
-    <section className="py-32 bg-white text-equator-charcoal relative z-10 overflow-hidden">
+    <section className="py-32 bg-white text-equator-charcoal relative z-10">
       {/* Decorative Background Mesh */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-equator-sky/10 to-transparent rounded-full blur-[80px] -z-10 pointer-events-none" />
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-equator-sky/10 to-transparent rounded-full blur-[80px]" />
+      </div>
 
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
         <div className="text-center max-w-3xl mx-auto mb-20">
