@@ -2,22 +2,35 @@
 
 import { useLayoutEffect } from "react";
 
-/** PRØDUX wordmark — the 6 real produx logo letter paths. Filled via CSS (.logo-mark path). */
-function ProduxMark({ className }: { className?: string }) {
+/**
+ * EQUATOR wordmark — 7 geometric letter paths.
+ * E, A, T are newly constructed; Q (Ø-style), U, R reuse the exact Produx letter paths
+ * translated to new x-positions for consistent weight/feel.
+ * Filled via CSS (.logo-mark path).
+ */
+function EquatorMark({ className }: { className?: string }) {
   return (
     <svg
       className={`logo-mark ${className ?? ""}`}
-      viewBox="0 0 1290 205"
+      viewBox="0 0 1450 205"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="PRODUX"
+      aria-label="EQUATOR"
     >
-      <path d="M24.0112 182.325V106.861L113.46 106.598C141.956 106.598 164.12 87.5996 164.12 55.4088C164.12 22.4264 138.526 8.44183 107.918 8.44183H0V182.325H24.0112ZM24.0112 91.5575V28.2313H106.335C125.597 28.2313 140.637 37.7302 140.637 59.8944C140.637 80.4754 125.069 91.5575 106.335 91.5575H24.0112Z" />
-      <path d="M224.011 182.325V106.598H269.395L334.832 182.325H363.329L296.045 106.598H314.779C341.429 106.07 364.12 88.3912 364.12 55.6727C364.12 21.8987 338.262 8.44183 306.599 8.44183H200V182.325H224.011ZM224.011 91.5575V28.2313H306.335C325.597 28.2313 340.637 37.7302 340.637 59.8944C340.637 80.4754 325.069 91.5575 306.335 91.5575H224.011Z" />
-      <path d="M609.547 9.98438L588.355 31.1758C607.5 47.3371 617.352 71.4855 612.588 100.047C603.862 152.36 550.778 190.619 491.937 190.619C472.517 190.619 455.017 186.412 440.609 178.922L418.927 200.604L408.943 190.62L428.358 171.204C407.095 155.104 395.944 130.193 400.799 101.088C409.265 50.3366 462.784 9.47559 522.68 9.47559C543.267 9.47563 561.762 14.3099 576.623 22.9395L599.563 0L609.547 9.98438ZM456.379 163.151C467.133 168.832 480.193 171.88 494.535 171.88C537.544 171.88 578.428 145.072 585.938 100.047C589.625 77.9406 583.88 60.0426 571.825 47.7061L456.379 163.151ZM520.523 28.7344C475.183 28.4741 434.79 58.665 427.626 101.608C423.814 124.465 430.799 142.804 444.552 155.01L560.657 38.9053C549.707 32.2927 535.944 28.7344 520.523 28.7344Z" />
-      <path d="M651.774 182.325H723.543C782.912 182.325 818.533 143.274 818.533 91.2937C818.533 37.4664 785.287 8.9696 728.293 8.9696H651.774V182.325ZM678.423 26.3843H718.794C766.552 26.3843 792.938 46.1738 792.938 91.8214C792.938 137.733 764.178 164.91 715.628 164.91H678.423V26.3843Z" />
-      <path d="M860.665 104.936C860.665 156.001 894.137 185.044 936.256 185.044C985.076 185.044 1014.42 160.469 1030.05 129.83V182.172H1056.52V8.23138H1030.05V97.2762C1030.05 112.277 1008.69 167.81 942.638 167.81C905.943 167.81 886.176 140.043 886.176 104.936V8.23138H860.665V104.936Z" />
-      <path d="M1095.65 182.222C1093.61 182.222 1092.59 180.855 1093.95 178.803L1173.16 92.9914V91.9658L1128.97 12.3077C1127.95 10.2564 1128.97 8.88885 1131.01 8.88885H1155.82C1157.18 8.88885 1158.2 9.23074 1158.88 10.9401L1191.52 72.4786H1192.54L1246.93 10.5983C1247.61 9.57264 1248.63 8.88885 1249.99 8.88885H1277.53C1279.57 8.88885 1280.93 10.2564 1279.23 12.3077L1206.14 91.9658V93.3333L1254.07 178.803C1255.09 180.855 1254.07 182.222 1252.03 182.222H1227.22C1225.86 182.222 1224.84 181.88 1224.16 180.513L1188.12 112.137H1187.1L1126.59 180.513C1125.57 181.538 1124.55 182.222 1123.19 182.222H1095.65Z" />
+      {/* E */}
+      <path d="M0 8.44H120V28.23H24V86.39H108V106.18H24V162.54H120V182.33H0V8.44Z" />
+      {/* Q (standard geometric, tailored for Equator) */}
+      <path d="M 263,10 A 106,90 0 1,1 263,190 A 106,90 0 1,1 263,10 Z M 263,29 A 87,71 0 1,0 263,171 A 87,71 0 1,0 263,29 Z M 305,145 L 360,195 L 375,180 L 320,130 Z" />
+      {/* U (from Produx, translated x-464) */}
+      <path d="M396.67 104.94C396.67 156 430.14 185.04 472.26 185.04C521.08 185.04 550.42 160.47 566.05 129.83V182.17H592.52V8.23H566.05V97.28C566.05 112.28 544.69 167.81 478.64 167.81C441.94 167.81 422.18 140.04 422.18 104.94V8.23H396.67V104.94Z" />
+      {/* A */}
+      <path d="M632 182.33L714.5 8.44H738.5L821 182.33H795.5L773 132.5H679L656.5 182.33H632ZM688 112.71H764L726.5 32L688 112.71Z" />
+      {/* T */}
+      <path d="M852 8.44H1016V28.23H946V182.33H922V28.23H852V8.44Z" />
+      {/* O (Ø-style, from Produx, translated x+637) */}
+      <path d="M1246.55 9.98L1225.36 31.18C1244.5 47.34 1254.35 71.49 1249.59 100.05C1240.86 152.36 1187.78 190.62 1128.94 190.62C1109.52 190.62 1092.02 186.41 1077.61 178.92L1055.93 200.6L1045.94 190.62L1065.36 171.2C1044.1 155.1 1032.94 130.19 1037.8 101.09C1046.27 50.34 1099.78 9.48 1159.68 9.48C1180.27 9.48 1198.76 14.31 1213.62 22.94L1236.56 0L1246.55 9.98ZM1093.38 163.15C1104.13 168.83 1117.19 171.88 1131.54 171.88C1174.54 171.88 1215.43 145.07 1222.94 100.05C1226.63 77.94 1220.88 60.04 1208.83 47.71L1093.38 163.15ZM1157.52 28.73C1112.18 28.47 1071.79 58.67 1064.63 101.61C1060.81 124.47 1067.8 142.8 1081.55 155.01L1197.66 38.91C1186.71 32.29 1172.94 28.73 1157.52 28.73Z" />
+      {/* R (from Produx, translated x+1076) */}
+      <path d="M1300.01 182.33V106.6H1345.4L1410.83 182.33H1439.33L1372.05 106.6H1390.78C1417.43 106.07 1440.12 88.39 1440.12 55.67C1440.12 21.9 1414.26 8.44 1382.6 8.44H1276V182.33H1300.01ZM1300.01 91.56V28.23H1382.34C1401.6 28.23 1416.64 37.73 1416.64 59.89C1416.64 80.48 1401.07 91.56 1382.34 91.56H1300.01Z" />
     </svg>
   );
 }
@@ -231,14 +244,14 @@ export default function ProduxSequence() {
       {/* Transparent header — the menu floats; the shrunk logo serves as the brand */}
       <header id="header">
         <div className="wrap nav">
-          {/* Anchor only — supplies the corner rect the logoFly parks into. Mark hidden so there's only ONE PRØDUX. */}
+          {/* Anchor only — supplies the corner rect the logoFly parks into. Mark hidden so there's only ONE EQUATOR. */}
           <a href="#" className="brand" id="navBrand" style={{ display: "inline-block", width: 150, height: 24, overflow: "hidden", visibility: "hidden" }}>
-            <ProduxMark className="w-full" />
+            <EquatorMark className="w-full" />
           </a>
           <nav className="menu">
-            <a href="#work">Work</a>
-            <a href="#studio">Studio</a>
-            <a href="#lab">Lab</a>
+            <a href="#work">Services</a>
+            <a href="#studio">About</a>
+            <a href="#lab">Projects</a>
             <a href="#contact">Contact</a>
           </nav>
           <div className="burger" id="burger">
@@ -255,22 +268,22 @@ export default function ProduxSequence() {
           <div className="stage__bg" />
 
           <div className="logo-fly" id="logoFly">
-            <ProduxMark />
+            <EquatorMark />
           </div>
 
           <div className="content-track" id="contentTrack">
             <div className="layer hero-layer" id="heroLayer">
               <div className="wrap" id="heroSub">
                 <h1>
-                  <span className="line">
-                    <span>You feel the brand</span>
+                <span className="line">
+                  <span>Every Space. Every System.</span>
+                </span>
+                <span className="line">
+                  <span>
+                    Every Day.<sup className="reg">®</sup>
                   </span>
-                  <span className="line">
-                    <span>
-                      before it speaks<sup className="reg">®</sup>
-                    </span>
-                  </span>
-                </h1>
+                </span>
+              </h1>
               </div>
             </div>
 

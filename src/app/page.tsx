@@ -5,7 +5,7 @@ import ProduxSections from "@/components/produx/ProduxSections";
 export default function Home() {
   return (
     <SmoothScrollProvider>
-      <main className="bg-[#0b0b0c] text-[#f2f2f2] font-sans selection:bg-white/20">
+      <main className="bg-[#0d1117] text-[#E8EDF5] font-sans selection:bg-white/20">
         <ProduxSequence />
         <ProduxSections />
       </main>

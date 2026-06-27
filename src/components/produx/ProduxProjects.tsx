@@ -7,13 +7,12 @@ import { useEffect } from "react";
  * Card sizes/aspects taken from live produx: lg 1.15, sm 0.87 (portrait), wide 1.66. Sharp corners.
  * Titles animate with a per-word slide-up + fade reveal as each card enters the viewport.
  */
-const IMG = "/produx/www.produx.design/images/FeaturedProject/";
 const PROJECTS = [
-  { img: "Payy.webp", name: "Payy Network", desc: "Stablecoin payments that feel familiar, not foreign.", tags: ["Creative Direction", "Visual Identity", "Motion", "Web Design"], cls: "is-lg" },
-  { img: "GatherAI.webp", name: "Gather AI", desc: "First telco run entirely on AI, powering hundreds of brands from one intelligent core.", tags: ["Creative Direction", "Visual Identity", "Website"], cls: "is-sm is-down" },
-  { img: "JurniAI.webp", name: "Jurni AI", desc: "Jurni is an AI funnel engine that turns a prompt into a live, conversion-ready journey.", tags: ["Creative Direction", "Visual Identity", "Motion", "Website"], cls: "is-wide" },
-  { img: "parkerAI.webp", name: "Parker AI", desc: "Parker is an AI creative strategist that thinks, researches, and structures work like a senior partner.", tags: ["Creative Direction", "Visual Identity", "Motion"], cls: "is-sm" },
-  { img: "NolanaAI.webp", name: "Nolana AI", desc: "AI-native agentic OS for financial services operations.", tags: ["Creative Direction", "Visual Identity", "Motion", "Website"], cls: "is-lg is-down" },
+  { img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80", name: "Amazon Retail", desc: "End-to-end retail store execution across 200+ locations nationwide.", tags: ["Turnkey", "Fixtures", "Electrical", "Handover"], cls: "is-lg" },
+  { img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80", name: "DLF Cyber Hub", desc: "Complete facility management for premium commercial complex.", tags: ["Technical", "HVAC", "Electrical", "Housekeeping"], cls: "is-sm is-down" },
+  { img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80", name: "Flipkart Warehouses", desc: "Large-scale warehouse housekeeping and maintenance operations.", tags: ["Housekeeping", "Deep Clean", "Floor Care", "Maintenance"], cls: "is-wide" },
+  { img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=80", name: "HDFC Bank", desc: "PAN India branch maintenance and housekeeping program across 500+ locations.", tags: ["Technical", "Housekeeping", "Project Mgmt"], cls: "is-sm" },
+  { img: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80", name: "Lumina CloudInfra", desc: "Mission-critical data centre facility management and operations.", tags: ["Data Centre", "HVAC", "Electrical", "Security"], cls: "is-lg is-down" },
 ];
 
 export default function ProduxProjects() {
@@ -36,7 +35,7 @@ export default function ProduxProjects() {
     <section className="pwork" id="work">
       <div className="wrap">
         <header className="pwork__head">
-          <span className="eyebrow">Featured Work</span>
+          <span className="eyebrow">Featured Projects</span>
           <span className="eyebrow num">{String(PROJECTS.length).padStart(2, "0")} selected projects</span>
         </header>
 
@@ -44,7 +43,7 @@ export default function ProduxProjects() {
           {PROJECTS.map((pr) => (
             <article className={`pcard ${pr.cls}`} key={pr.name}>
               <a href="#" className="pcard__media">
-                <img src={IMG + pr.img} alt={pr.name} loading="lazy" />
+                <img src={pr.img} alt={pr.name} loading="lazy" />
                 <div className="pcard__tags">
                   {pr.tags.map((t) => (
                     <span key={t}>{t}</span>
